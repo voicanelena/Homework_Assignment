@@ -12,5 +12,4 @@ int main()
 
     printf("minimum operations required: %d\n", min_operations_to_correct(S, grammar_rule));
     return 0;
-    return 0;
 }
