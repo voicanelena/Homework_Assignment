@@ -1,0 +1,56 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+
+#define MAX_CODE_LENGTH 100
+#define MIN_CODE_LENGTH 50
+#define NUM_TEST_CASES 5
+
+char* generate_code_fragment(int length) {
+    char characters[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789(){}[];,+-*/=<>&|";
+    char* code_fragment = malloc((length + 1) * sizeof(char));
+    if (code_fragment == NULL) {
+        fprintf(stderr, "Memory allocation failed\n");
+        exit(EXIT_FAILURE);
+    }
+    for (int i = 0; i < length; i++) {
+        code_fragment[i] = characters[rand() % strlen(characters)];
+    }
+    code_fragment[length] = '\0';
+    return code_fragment;
+}
+
+char* generate_syntax_rule() {
+    char* rules[] = {
+        "Every function must start with the keyword 'func', followed by the function name enclosed in parentheses.",
+    };
+    int num_rules = sizeof(rules) / sizeof(rules[0]);
+    return rules[rand() % num_rules];
+}
+
+void generate_test_data(char* syntax_rules[], char* code_fragments[], int num_test_cases) {
+    for (int i = 0; i < num_test_cases; i++) {
+        int code_length = rand() % (MAX_CODE_LENGTH - MIN_CODE_LENGTH + 1) + MIN_CODE_LENGTH;
+        code_fragments[i] = generate_code_fragment(code_length);
+        syntax_rules[i] = generate_syntax_rule();
+    }
+}
+
+int main() {
+    srand(time(NULL));
+    char* syntax_rules[NUM_TEST_CASES];
+    char* code_fragments[NUM_TEST_CASES];
+
+    generate_test_data(syntax_rules, code_fragments, NUM_TEST_CASES);
+
+    for (int i = 0; i < NUM_TEST_CASES; i++) {
+        printf("Test Case %d:\n", i + 1);
+        printf("Syntax Rule: %s\n", syntax_rules[i]);
+        printf("Code Fragment: %s\n\n", code_fragments[i]);
+        free(syntax_rules[i]);
+        free(code_fragments[i]);
+    }
+
+    return 0;
+}
