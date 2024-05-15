@@ -7,3 +7,4 @@ To clone compile the program into your local machine follow these steps:
             2.) Run the following command:
   		gcc -g *.c *.h -o app
     	(Warning: This command requires the MingW compiler in order to work.)
+            3.) Execute the new "app" application created
